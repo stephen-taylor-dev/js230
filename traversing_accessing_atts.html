@@ -43,26 +43,71 @@
 </html>
 
 <script>
-document.lastChild.childNodes[2].childNodes[1].style.color = 'red';
-document.lastChild.childNodes[2].childNodes[1].style.fontSize = '48px';
+// document.lastChild.childNodes[2].childNodes[1].style.color = 'red';
+// document.lastChild.childNodes[2].childNodes[1].style.fontSize = '48px';
 
-let count = 0;
+// let count = 0;
 
+// walk(document.body, node => {
+//     if (node.nodeName === 'P') {
+//         count += 1;
+//     }
+// })
+
+// console.log(count);
+
+// let firstWords = [];
+// walk(document.body, node => {
+//     if (node.nodeName === 'P') {
+//         firstWords.push(node.textContent.trim().split(' ')[0]);
+//     }
+// });
+
+// console.log(firstWords);
+
+
+// count = 0;
 walk(document.body, node => {
-    if (node.nodeName === 'P') {
+        if (node.nodeName === 'P') {
+            if (count >= 1) {
+                console.log(node.nodeName);
+                node.classList.add('stanza');
+        }
         count += 1;
-    }
-})
-
-console.log(count);
-
-let firstWords = [];
-walk(document.body, node => {
-    if (node.nodeName === 'P') {
-        firstWords.push(node.textContent.trim().split(' ')[0]);
     }
 });
 
-console.log(firstWords);
+let png = 0
+walk(document.body, node => {
+    if (node.nodeName === 'IMG') {
+        node.getAttributeNames().forEach(attr => {
+            console.log(node[attr]);
+            if (String(node[attr]).includes('.png')) {
+                png += 1;
+            }
+        })
+    }
+});
+
+let images = [];
+walk(document, node => {
+  if (node.nodeName === 'IMG') {
+    images.push(node);
+  }
+});
+
+console.log(images.length);                      // 48 total images
+
+let pngCount = images.filter(img => img.getAttribute('src').match(/png$/)).length;
+
+console.log(pngCount);                           // 23 images in png format
+
+
+
+walk(document.body, node => {
+    if (node.nodeName === 'A') {
+        node.style.color = 'red';
+    }
+});
 
 </script>
