@@ -29,3 +29,20 @@ let tableRows = document.querySelector('.infobox').children[0].children;
     obj[key] = val;
     return obj;
   }, {});
+
+
+(e) => {
+  e.preventDefault();
+  const element = document.querySelector('#notice');
+  if (element.className === 'hidden') {
+    element.classList.remove('hidden');
+    element.classList.add('visible');
+  } else if (element.className === 'visible') {
+    element.classList.remove('visible');
+    element.classList.add('hidden');
+  }
+}
+
+document.getElementById('notice').onclick = (e) => {
+  e.currentTarget.setAttribute('class', 'hidden');
+}
