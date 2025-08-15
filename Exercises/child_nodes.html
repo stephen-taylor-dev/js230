@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Build Input Box</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="input_box_script.js"></script>
+  </head>
+  <body>
+    <main>
+        <div id="1">
+        <h1 id="2">Hello, <em id="3">World</em></h1>
+        <p id="4">
+            Welcome to wonderland. This is an
+            <span id="5">awesome</span> place.
+        </p>
+        <a href="#" id="6"><strong id="7">Enter</strong></a>
+        <div id="8"><p id="9"><a href="#" id="10">Go back</a></p></div>
+        </div>
+    </main> 
+  </body>
+  <script>
+    function walk(node, callback) {
+        callback(node);
+        for (let index = 0; index < node.childNodes.length; index += 1) {
+            walk(node.childNodes[index], callback);
+        }
+    }
+
+    function numDirectIndirectChildren(node) {
+        const counts = [];
+        let indirect = -1; // don't count current node
+        let direct = node.childNodes.length
+        counts.push(direct);
+        indirect -= direct;
+
+        walk(node, () => {
+            indirect += 1;
+        });
+        
+        counts.push(indirect);
+        return counts;
+    }
+
+    let a = numDirectIndirectChildren(document.getElementById(1));
+    console.log(a);
+  </script>
+</html>
