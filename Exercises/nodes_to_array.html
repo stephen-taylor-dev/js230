@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Nodes to Array</title>
+  </head>
+  <script>
+    
+
+    function nodesToArr() {
+        const element = document.querySelector('body');
+        function walkNodes(node, func) {
+            const currentNesting = [node.tagName];
+            if (node.children.length > 0) {
+                let nestedArrs = [];
+                for (let i = 0; i < node.children.length; i += 1 ) {
+                    nestedArrs.push(walkNodes(node.children[i]));
+                }
+                currentNesting.push(nestedArrs);
+            } else {
+                currentNesting.push([]);
+                return currentNesting;
+            }
+
+            return currentNesting;
+        } 
+        
+        return walkNodes(element);
+    }
+
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('["BODY",[["HEADER",[]],["MAIN",[]],["FOOTER",[]]]]' === JSON.stringify(nodesToArr())); 
+        // 
+        // console.log('["BODY",[["DIV",[["DIV",[]],["DIV",[["DIV",[]]]]]],["DIV",[]],["DIV",[["DIV",[]],["DIV",[]],["DIV",[]]]]]]' === JSON.stringify(nodesToArr())); 
+        console.log(JSON.stringify(nodesToArr()));
+    });
+  </script>
+  <body>
+    <header id="1"></header>
+    <main id="2"></main>
+    <footer id="3"></footer>
+  </body>
+</html>

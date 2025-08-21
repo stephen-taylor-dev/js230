@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Node Swap</title>
+    <script>
+        // return undefined if both nodes not in DOM
+        // return undefined if one node is child of the other
+            // if first node parent is other node or other node parent is first node
+        // select both nodes
+        // get the parent node
+        // get originol index of second node
+        // insert second node before first node
+        // insert first node before origninol index of second node
+
+        // My first solution. NOT GOOD has potentials bugs
+        // function nodeSwap(firstId, secondId) {
+        //     const firstNode = document.getElementById(firstId);
+        //     const secondNode = document.getElementById(secondId);
+
+        //     // check if node is in DOM
+        //     if (!firstNode || !secondNode) return undefined;
+        //     // check if any node is child node of other
+        //     if (firstNode.contains(secondNode) || secondNode.contains(firstNode)) return undefined;
+
+        //     let secOrgIndex = [...secondNode.parentNode.children].indexOf(secondNode);
+        //     let secOrgParentNode = secondNode.parentNode;
+        //     firstNode.parentNode.insertBefore(secondNode, firstNode);
+
+        //     // if node was last element, append first node to end
+        //     if (secOrgIndex === secOrgParentNode.children.length - 1) {
+        //        secOrgParentNode.appendChild(firstNode);
+        //     } else { // else insertbefore orgIndex
+        //         secOrgParentNode.insertBefore(firstNode, secOrgParentNode.children[secOrgIndex]);
+        //     }
+
+        //     return true;
+        // }
+
+        function nodeSwap(firstId, secondId) {
+            const firstNode = document.getElementById(firstId);
+            const secondNode = document.getElementById(secondId);
+
+            // check if node is in DOM
+            if (!firstNode || !secondNode) return undefined;
+            // check if any node is child node of other
+            if (firstNode.contains(secondNode) || secondNode.contains(firstNode)) return undefined;
+
+            const node1Parent = firstNode.parentNode;
+            const node2Parent = secondNode.parentNode;
+            const node1Sibling = firstNode.nextSibling;
+            const node2Sibling = secondNode.nextSibling;
+
+            node1Parent.insertBefore(secondNode, node1Sibling);
+            node2Parent.insertBefore(firstNode, node2Sibling);
+
+            return true
+
+        }
+
+        // function nodeSwap(node1Id, node2Id) {
+        //     const node1 = document.getElementById(node1Id);
+        //     const node2 = document.getElementById(node2Id);
+
+        //     if (!isInvalidSwap(node1, node2)) {
+        //         const node1Clone = node1.cloneNode(true);
+        //         const node2Clone = node2.cloneNode(true);
+        //         const node1Parent = node1.parentNode;
+        //         const node2Parent = node2.parentNode;
+
+        //         node1Parent.replaceChild(node2Clone, node1);
+        //         node2Parent.replaceChild(node1Clone, node2);
+        //         return true;
+        //     }
+        // }
+
+        function isInvalidSwap(node1, node2) {
+        return ((!node1 || !node2) ||
+                node1.contains(node2) || node2.contains(node1));
+        }
+
+        document.addEventListener('DOMContentLoaded' , () => {
+            document.getElementById('1').addEventListener('click', () => {
+                console.log('hovering');
+            });
+            console.log(nodeSwap(1, 20));
+            console.log(nodeSwap(1, 4));
+            console.log(nodeSwap(9, 3));
+            console.log(nodeSwap(1, 9));
+            // nodeSwap(3, 1);
+            // nodeSwap(7, 9);
+        });
+
+        
+
+    </script>
+  </head>
+  <body>
+    <div id="1">
+      <div id="4"></div>
+      <div id="5">
+        <div id="6"></div>
+      </div>
+    </div>
+    <div id="2"></div>
+    <div id="3">
+      <div id="7"></div>
+      <div id="8"></div>
+      <div id="9"></div>
+    </div>
+  </body>
+</html>

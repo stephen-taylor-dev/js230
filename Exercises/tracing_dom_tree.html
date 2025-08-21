@@ -47,13 +47,65 @@
       </footer>
     </article>
     <script>
+        function ancestorIsBody(node) {
+            let located = false;
+            let currentElement = node;
+
+            while (!located && currentElement && currentElement.nodeName !== 'HTML') {
+                if (currentElement.nodeName === 'BODY') {
+                    located = true;
+                }
+                currentElement = currentElement.parentNode;
+            }
+            
+            return located;
+        }
+
+        // function walkTree(node, callback) {
+        //     if (callback(node)) return true;
+
+        //     for (let i = 0; i < node.children.length; i += 1) {
+        //         if (walkTree(node.children[i], func)) return true;;
+        //     }
+
+        //     return false;
+        // }
+
+        // let found = walkTree(startElement, (node) => {
+            //     tagNames.push(node.tagName);
+            //     return node === endElement;
+            // });
+
         function sliceTree(start, end) {
             let startElement = document.getElementById(start);
             let endElement = document.getElementById(end);
-            if (!startElement || !endElement) {
+
+            if ((!startElement || !endElement) &&
+                (!ancestorIsBody(startElement) || !ancestorIsBody(endElement))) {
                 return undefined;
             }
+
+            // start at last element and naviaget up parent nodes untile found startElement
+            let currentElement = endElement;
+            let tagNames = [];
+
+            do {
+                tagNames.push(currentElement.tagName);
+                currentElement = currentElement.parentElement;
+            } while (currentElement !== startElement && currentElement.nodeName !== 'BODY');
+
+            
+            tagNames.push(startElement.nodeName);
+            return currentElement.tagName === 'BODY' ? undefined : tagNames.reverse();
         }
+
+        console.log(sliceTree(1, 4));
+        console.log(sliceTree(1, 76));
+        console.log(sliceTree(2, 5));
+        console.log(sliceTree(5, 4));
+        console.log(sliceTree(1, 23));
+        console.log(sliceTree(1, 22));
+        console.log(sliceTree(11, 19));
     </script>
   </body>
 </html>
