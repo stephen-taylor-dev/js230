@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Filters</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const linkedOptions = {
+                classifications: {
+                    Vertebrate: ['Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
+                    'Warm-blooded': ['Bear', 'Whale', 'Ostrich'],
+                    'Cold-blooded': ['Salmon', 'Turtle'],
+                    Mammal: ['Bear', 'Whale'],
+                    Bird: ['Ostrich'],
+                    Classifications: ['Animals', 'Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich'],
+                },
+                animals: {
+                    Bear: ['Vertebrate', 'Warm-blooded', 'Mammal'],
+                    Turtle: ['Vertebrate', 'Cold-blooded'],
+                    Whale: ['Vertebrate', 'Warm-blooded', 'Mammal'],
+                    Salmon: ['Vertebrate', 'Cold-blooded'],
+                    Ostrich: ['Vertebrate', 'Warm-blooded', 'Bird'],
+                    Animals: ['Classifications', 'Vertebrate', 'Warm-blooded', 'Cold-blooded', 'Mammal', 'Bird'],
+                },
+                };
+
+                const animalClassifications = document.querySelector('#animal-classifications');
+                const animals = document.querySelector('#animals');
+                const clearFiltersBtn = document.querySelector('#clear');
+                let animalClassificationsValue;
+                let animalsValue;
+
+                function setOptions({options}, filters) {
+                    options.length = 0;
+                    console.log(options);
+                    filters.forEach((value, index) => {
+                        options[index] = new Option(value)
+                    });
+                    // console.log(options);
+                }
+
+                function setDefault(event) {
+                event.preventDefault();
+                setOptions(animalClassifications, ['Classifications', 'Vertebrate', 'Warm-blooded', 'Cold-blooded', 'Mammal', 'Bird']);
+                setOptions(animals,  ['Animals', 'Bear', 'Turtle', 'Whale', 'Salmon', 'Ostrich']);  
+                }
+
+                animalClassifications.addEventListener('change', event => {
+                animalClassificationsValue = animalClassifications.options[animalClassifications.selectedIndex].value
+                setOptions(animals, linkedOptions['classifications'][animalClassificationsValue])
+                });
+
+                animals.addEventListener('change', event => {
+                animalsValue = animals.options[animals.selectedIndex].value
+                setOptions(animalClassifications, linkedOptions['animals'][animalsValue])
+                });
+
+                clearFiltersBtn.addEventListener('click', setDefault);
+                            
+            // let classifications = document.querySelector('#animal-classifications');
+            // let animals = document.querySelector('#animals');
+            // let clearButton = document.querySelector('#clear');
+            // let form = document.querySelector('form');
+
+            // clearButton.addEventListener('click', () => {
+            //     form.reset();
+            // });
+
+            // classifications.addEventListener('change', (event) => {
+            //     let selectedVal = event.target.value;
+            //     document.querySelector('[value="Animals"]').remove();
+            //     switch(selectedVal) {
+            //         case 'Warm-blooded':
+            //             document.querySelector('[value="Turtle"]').remove();
+            //             document.querySelector('[value="Salmon"]').remove();
+            //             break;
+            //         case 'Cold-blooded':
+            //             document.querySelector('[value="Bear"]').remove();
+            //             document.querySelector('[value="Whale"]').remove();
+            //             document.querySelector('[value="Ostrich"]').remove();
+            //             break;
+            //         case 'Mammal':
+            //             document.querySelector('[value="Turtle"]').remove();
+            //             document.querySelector('[value="Salmon"]').remove();
+            //             document.querySelector('[value="Ostrich"]').remove();
+            //             break;
+            //         case 'Bird':
+            //             document.querySelector('[value="Bear"]').remove();
+            //             document.querySelector('[value="Whale"]').remove();
+            //             document.querySelector('[value="Turtle"]').remove();
+            //             document.querySelector('[value="Salmon"]').remove();
+            //             break;                        
+            //     }       
+                
+            // });
+
+            // animals.addEventListener('change', () => {
+            //     let selectedVal = event.target.value;
+            //     document.querySelector('[value="Classifications"]').remove();
+            //     switch(selectedVal) {
+            //         case 'Bear':
+            //             document.querySelector('[value="Cold-blooded"]').remove();
+            //             document.querySelector('[value="Bird"]').remove();
+            //             break;
+            //         case 'Turtle':
+            //             document.querySelector('[value="Warm-blooded"]').remove();
+            //             document.querySelector('[value="Mammal"]').remove();
+            //             document.querySelector('[value="Bird"]').remove();
+            //             break;
+            //         case 'Whale':
+            //             document.querySelector('[value="Cold-blooded"]').remove();
+            //             document.querySelector('[value="Bird"]').remove();
+            //             break;
+            //         case 'Salmon':
+            //             document.querySelector('[value="Warm-blooded"]').remove();
+            //             document.querySelector('[value="Mammal"]').remove();
+            //             document.querySelector('[value="Bird"]').remove();
+            //             break;     
+            //         case 'Ostrich':
+            //             document.querySelector('[value="Mammal"]').remove();
+            //             document.querySelector('[value="Cold-blooded"]').remove();
+            //             break;                         
+            //     }       
+            // });
+        });
+    </script>
+</head>
+<body>
+    <form id="selection-filters" method="post" action="#">
+        <select id="animal-classifications">
+            <option value="Classifications" selected>Classifications</option>
+            <option value="Vertebrate">Vertebrate</option>
+            <option value="Warm-blooded">Warm-blooded</option>
+            <option value="Cold-blooded">Cold-blooded</option>
+            <option value="Mammal">Mammal</option>
+            <option value="Bird">Bird</option>
+        </select>
+        <select id="animals">
+            <option value="Animals" selected>Animals</option>
+            <option value="Bear">Bear</option>
+            <option value="Turtle">Turtle</option>
+            <option value="Whale">Whale</option>
+            <option value="Salmon">Salmon</option>
+            <option value="Ostrich">Ostrich</option>    
+        </select>
+    <button id="clear">Clear</button>  
+</form>
+</body>
+</html>

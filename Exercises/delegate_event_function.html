@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Event Delegation Function</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function delegateEvent(parentElement, selector, eventType, callback) {
+                const [mainSelector, subSelector] = selector.split(' ');
+
+                if (parentElement) {
+                    parentElement.addEventListener(eventType, (event) => {
+                        if ((event.currentTarget.tagName === 'MAIN' 
+                            && (event.target.tagName === mainSelector.toUpperCase()) || 
+                                    event.target.parentNode.tagName === mainSelector.toUpperCase() && 
+                                    event.target.tagName === subSelector.toUpperCase()) || 
+                                event.currentTarget.tagName === 'H1' && event.target.textContent === 'New Paragraph'){
+                            callback(event);
+                        } 
+                    });
+
+                    return true;
+                } else {
+                    return undefined;
+                }
+            }
+
+
+
+            // Possible elements for use with the scenarios
+            const element1 = document.querySelector('table');
+            const element2 = document.querySelector('main h1');
+            const element3 = document.querySelector('main');
+
+            // Possible callback for use with the scenarios
+            const callback = ({target, currentTarget}) => {
+                alert(`Target: ${target.tagName}\nCurrent Target: ${currentTarget.tagName}`);
+            };
+
+            // scenario 1
+            // console.log(delegateEvent(element1, 'p', 'click', callback));
+
+            // scenario 2
+            // console.log(delegateEvent(element2, 'p', 'click', callback));
+
+            // // scenario 3
+            // console.log(delegateEvent(element2, 'h1', 'click', callback));
+
+            // // scenario 4 
+            // console.log(delegateEvent(element3, 'h1', 'click', callback));
+
+            // // scenario 5
+            console.log(delegateEvent(element3, 'aside p', 'click', callback));
+
+            // // scenario 6
+            // console.log(delegateEvent(element2, 'p', 'click', callback));
+
+            // const newP = document.createElement('P');
+            // const newContent = document.createTextNode('New Paragraph');
+            // newP.appendChild(newContent);
+
+            // element2.appendChild(newP);
+        });
+    </script>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>Header</h1>
+        <p>Content</p>
+      </section>
+      <aside>
+        <h2>Sub Side Notes</h2>
+        <p>Note 1</p>
+        <p>Note 2</p>
+      </aside>
+    </main>
+    <nav>
+      <p>Side Note</p>
+    </nav>
+  </body>
+</html>

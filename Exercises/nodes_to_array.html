@@ -6,20 +6,34 @@
   <script>
     
 
+    // function nodesToArr() {
+    //     const element = document.querySelector('body');
+    //     function walkNodes(node, func) {
+    //         const currentNesting = [node.tagName];
+    //         if (node.children.length > 0) {
+    //             let nestedArrs = [];
+    //             for (let i = 0; i < node.children.length; i += 1 ) {
+    //                 nestedArrs.push(walkNodes(node.children[i]));
+    //             }
+    //             currentNesting.push(nestedArrs);
+    //         } else {
+    //             currentNesting.push([]);
+    //             return currentNesting;
+    //         }
+
+    //         return currentNesting;
+    //     } 
+        
+    //     return walkNodes(element);
+    // }
+
     function nodesToArr() {
         const element = document.querySelector('body');
-        function walkNodes(node, func) {
+        function walkNodes(node) {
             const currentNesting = [node.tagName];
-            if (node.children.length > 0) {
-                let nestedArrs = [];
-                for (let i = 0; i < node.children.length; i += 1 ) {
-                    nestedArrs.push(walkNodes(node.children[i]));
-                }
-                currentNesting.push(nestedArrs);
-            } else {
-                currentNesting.push([]);
-                return currentNesting;
-            }
+            // gets the nested arrays of children elements or empyt array if no child elements
+            const nestedArrs = [...node.children].map(childNode => walkNodes(childNode));
+            currentNesting.push(nestedArrs);
 
             return currentNesting;
         } 
@@ -27,6 +41,7 @@
         return walkNodes(element);
     }
 
+    
     
     document.addEventListener('DOMContentLoaded', () => {
         console.log('["BODY",[["HEADER",[]],["MAIN",[]],["FOOTER",[]]]]' === JSON.stringify(nodesToArr())); 
