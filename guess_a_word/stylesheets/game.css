@@ -78,6 +78,10 @@ p:empty {
   display: none;
 }
 
+#replay {
+  display: none;
+}
+
 span {
   display: inline-block;
   width: 30px;

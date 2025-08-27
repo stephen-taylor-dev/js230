@@ -2,7 +2,7 @@
 
 export class Game {
 
-  static words = ['apple', 'banana', 'orange', 'pear'];
+  static words = ['apple', 'banana'];
   static maxIncorrectGuesses = 6;
   
   constructor() {
@@ -26,7 +26,7 @@ export class Game {
   makeGuess(guessedLetter) {
     guessedLetter = guessedLetter.toLowerCase(); // convert to lowercase for consistent comparison
     
-    if (/^[^a-z]$/gi.test(guessedLetter)) return; // make sure guess is letter
+    if (/^[^a-z]$/gi.test(guessedLetter)) return; // make sure guess is 1 char letter
     if (this.lettersGuessed.includes(guessedLetter)) return; // make sure guess hasn't already been guessed.
     
     const foundIndices = this.#findMatchingIndices(guessedLetter);
@@ -49,22 +49,12 @@ export class Game {
       return indices;
     }, []);
   }
-
-  showState() {
-    console.log(`
-                 word: ${this.word}
-                 spaces: ${this.spaces}
-                 lettersGuessed: ${this.lettersGuessed}
-                 incorrectGuessed: ${this.incorrectGuesses}
-                 hasWon: ${this.#hasWon()}
-                 hasLost: ${this.#hasLost()}`);
-  }
   
-  #hasLost() {
+  hasLost() {
     return this.incorrectGuesses >= Game.maxIncorrectGuesses;
   }
 
-  #hasWon() {
+  hasWon() {
     return this.spaces.join('') === this.word.join('');
   }
 
