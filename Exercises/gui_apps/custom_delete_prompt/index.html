@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Custom Delete Prompt</title>
+        <link rel="stylesheet" href="stylesheets/styles.css">
+        <script src="javascripts/script.js"></script>
+    </head>
+    <body>
+        <main>
+            <h1>Todos</h1>
+            <div id="container">
+            </div>
+        </main>
+        <div class="prompt hide">
+            <p>Are you sure you want to delete "<span id="todo-name"></span>"?</p>
+            <form class="confirmation" action="#">
+                <input id="clicked-todo" type="hidden">
+                <input type="submit" value="Yes" placeholder="No">
+                <input type="submit" value="No" placeholder="No">
+            </form>
+        </div>
+    </body>
+</html>

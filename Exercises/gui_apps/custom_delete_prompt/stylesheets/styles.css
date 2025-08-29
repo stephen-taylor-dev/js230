@@ -1,0 +1,79 @@
+body {
+    background-color: rgb(48, 88, 60);
+    padding: 20px;
+}
+
+main.dimmed {
+    opacity: 50%;
+    height: 100vh;
+}
+
+h1 {
+    color: white;
+}
+
+.todo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 10px;
+    width: 300px;
+    height: 20px;
+    margin: 20px 0px 20px 0px;
+    padding: 15px 15px 15px 25px;
+}
+
+.delete {
+    border: none;
+    background: none;
+    color: red;
+    font-size: 1.3rem;
+}
+
+.delete:hover {
+    font-size: 1.7rem;
+}
+
+p {
+    margin: 0px;
+}
+
+form.confirmation {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+form.confirmation input {
+    border-radius: 5px;
+    padding: 5px 15px 5px 15px;
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+}
+
+form.confirmation input[value="Yes"] {
+    background-color: red;
+}
+
+form.confirmation input[value="No"] {
+    background-color: green;
+}
+
+.prompt.show {
+    padding: 30px 15px 15px 15px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 400px;
+    height: 100px;
+    border-radius: 5px;
+    background-color: white;
+    top: 20%;
+    left: 50%;
+}
+
+.prompt.hide {
+    display: none;
+}

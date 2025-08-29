@@ -1,41 +1,20 @@
 <!doctype html>
 <html>
   <head>
-    <title>Newsletter Signup</title>
+    <title>Testing</title>
   </head>
   <body>
-    <!-- A short comment -->
-    <h1 id="cowboy">Newsletter Signup</h1>
-    <p class="intro">
-      To receive our weekly emails, enter your email address below.
-      <a id="simple" href="info.html">Get more info</a>
-    </p>
-    <div class="form">
-      <form>
-        <label>
-          Enter your email:
-          <input name="email" placeholder="user.name@domain.test" />
-        </label>
-        <p class="controls">
-          <button id="cancelButton">Cancel</button>
-          <button type="submit" id="submitButton">Subscribe</button>
-        </p>
-      </form>
+    <div id="parent">
+      Parent
+      <div id="child1">Child1</div>
+      <div id="child2">Child2</div>
     </div>
-  </body>
-
   <script>
-    let h1 = document.querySelector('h1');
+    let parent = document.getElementById('parent');
 
-// Take note that the function expression syntax is used to create the callback function
-// elem2.addEventListener('click', function(event) {
-//   alert(event.currentTarget.id);
-// });
-
-
-// is equivalent to
-h1.addEventListener('click', () => {
-  alert(this.id);
-});
+    parent.addEventListener('mouseenter', () => {
+      console.log('Mouse ENTERED event triggered');
+    }, true);
   </script>
+  </body>
 </html>
