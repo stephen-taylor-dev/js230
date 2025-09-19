@@ -1,6 +1,7 @@
 body {
     background-color: rgb(48, 88, 60);
     padding: 20px;
+    height: auto;
 }
 
 main.dimmed {
@@ -76,4 +77,31 @@ form.confirmation input[value="No"] {
 
 .prompt.hide {
     display: none;
+}
+
+.context-menu {
+    list-style-type: none;
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    padding: 0px;
+    width: 175px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+.menu-item {
+    padding: 10px;
+    border-bottom: 1px solid white; 
+}
+
+.menu-item:hover {
+    background-color: darkgray;
+    color: white;
+}
+
+.menu-item:last-child {
+    border: none;
 }

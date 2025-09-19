@@ -10,8 +10,8 @@
     <body>
         <main>
             <h1>Todos</h1>
-            <div id="container">
-            </div>
+            <ul id="container">
+            </ul>
         </main>
         <div class="prompt hide">
             <p>Are you sure you want to delete "<span id="todo-name"></span>"?</p>
@@ -21,5 +21,11 @@
                 <input type="submit" value="No" placeholder="No">
             </form>
         </div>
+
+        <ul class="context-menu">
+            <li class="menu-item">Edit Todo</li>
+            <li class="menu-item">Show Details</li>
+            <li id="delete" class="menu-item">Delete</li>
+        </ul>
     </body>
 </html>
