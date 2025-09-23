@@ -2,7 +2,7 @@ body {
     background-color: goldenrod;
 }
 
-#timer-container {
+#stopwatch-container {
     display: flex;
     flex-direction: column;
     justify-content: center; /* horizontal */
@@ -15,7 +15,7 @@ span {
     width: 60px;
 }
 
-.timer {
+.stopwatch {
     color: white;
     font-size: 4rem;
     font-weight: bold;

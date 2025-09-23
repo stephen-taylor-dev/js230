@@ -1,105 +1,121 @@
-const MStoSEC = 100;
-const SECtoMIN = 60;
-const MINtoHR = 60;
-
 class Stopwatch {
   constructor() {
-    this.id = null;
     this.startTime = null;
+    this.pauseTime = null;
     this.cs = 0;
     this.sec = 0;
     this.min = 0;
     this.hr = 0;
   }
 
-  start(app) {
-    this.startTime = new Date().getTime();
+  tick() {
+    // Initialze start time for fresh stopwatch
+    if (!this.startTime) {
+      this.startTime = new Date().getTime();
+    }
 
-    this.id = setInterval(() => {
-      let elapsedTime = new Date().getTime() - this.startTime;
-      this.cs += 1;
+    // Recalibrate start time if stopwatch was paused
+    if (this.pauseTime) {
+      this.calibrateForPausedTime();
+    }
 
-      if (this.cs > 0 && this.cs % MStoSEC === 0) {
-        this.sec += 1;
-        this.cs = 0;
-      }
-
-      if (this.sec > 0 && this.sec % SECtoMIN === 0) {
-        this.min += 1;
-        this.sec = 0;
-      }
-
-      if (this.min > 0 && this.min % MINtoHR === 0) {
-        this.hr += 1;
-        this.min = 0;
-      }
-
-      app.renderStopwatch(this.cs, this.sec, this.min, this.hr);
-    }, 10);
+    // Calculate elapsed time
+    this.calculateTimeIntervals();
   }
 
-  calculateTimes(ms) {
-    
-    this.sec = 
+  state() {
+    return [this.cs, this.sec, this.min, this.hr];
   }
 
-  stop() {
-    clearInterval(this.id);
-    this.id = null;
+  calibrateForPausedTime() {
+    let timePaused = new Date().getTime() - this.pauseTime;
+    this.startTime += timePaused;
+    this.pauseTime = null;
   }
 
-  reset(app) {
-    clearInterval(this.id);
-    this.id = null;
+  calculateTimeIntervals() {
+    let elapsedMs = new Date().getTime() - this.startTime;
+    this.cs = Math.floor(elapsedMs / 10 % 100);
+    this.sec = Math.floor(elapsedMs / 1000 % 60);
+    this.min = Math.floor(elapsedMs / 60000 % 60);
+    this.hr = Math.floor(elapsedMs / 3600000);
+  }
+
+  pause() {
+    this.pauseTime = new Date().getTime();
+  }
+
+  reset() {
+    this.startTime = null;
+    this.pauseTime = null;
     this.cs = 0;
     this.sec = 0;
     this.min = 0;
     this.hr = 0;
-
-    app.renderStopwatch(this.cs, this.sec, this.min, this.hr);
-  }
-
-  formatTime(time) {
-    return time < 10 ? `0${time}` : String(time);
   }
 }
 
 class App {
   constructor() {
     this.stopwatch = new Stopwatch();
+    this.isRunning = false;
+    this.intervalId = null;
 
     this.hrSpan = document.querySelector('#hours');
     this.minSpan = document.querySelector('#minutes');
     this.secSpan = document.querySelector('#seconds');
     this.csSpan = document.querySelector('#centiseconds');
 
-    this.startStopBttn = document.querySelector('#start-stop');
+    this.toggleBttn = document.querySelector('#toggle');
     this.resetBttn = document.querySelector('#reset');
 
-    this.startStopBttn.addEventListener('click', this.handleStartStopClick.bind(this));
+    this.toggleBttn.addEventListener('click', this.handletoggleClick.bind(this));
     this.resetBttn.addEventListener('click', this.handleResetClick.bind(this));
   }
 
-  renderStopwatch(cs, sec, min, hr) {
-    this.csSpan.innerText = this.stopwatch.formatTime(cs);
-    this.secSpan.innerText = this.stopwatch.formatTime(sec);
-    this.minSpan.innerText = this.stopwatch.formatTime(min);
-    this.hrSpan.innerText = this.stopwatch.formatTime(hr);
+  renderStopwatch() {
+    let [cs, sec, min, hr] = this.stopwatch.state();
+
+    this.csSpan.innerText = this.formatTime(cs);
+    this.secSpan.innerText = this.formatTime(sec);
+    this.minSpan.innerText = this.formatTime(min);
+    this.hrSpan.innerText = this.formatTime(hr);
   }
 
-  handleStartStopClick() {
-    if (this.startStopBttn.innerText === 'Start') {
-      this.stopwatch.start(this);
-      this.startStopBttn.innerText = 'Stop';
+  handletoggleClick() {
+    if (!this.isRunning) {
+      this.isRunning = true;
+
+      this.intervalId = setInterval(() => {
+        this.stopwatch.tick();
+        this.renderStopwatch();
+      }, 10);
+
+      this.toggleBttn.innerText = 'Stop';
     } else {
-      this.stopwatch.stop();
-      this.startStopBttn.innerText = 'Start';
+      this.isRunning = false;
+      clearInterval(this.intervalId);
+
+      this.intervalId = null;
+      this.stopwatch.pause();
+
+      this.toggleBttn.innerText = 'Start';
     }
   }
 
   handleResetClick() {
-    this.stopwatch.reset(this);
-    this.startStopBttn.innerText = 'Start';
+    this.isRunning = false;
+    clearInterval(this.intervalId);
+
+    this.intervalId = null;
+    this.stopwatch.reset();
+    this.renderStopwatch();
+
+    this.toggleBttn.innerText = 'Start';
+  }
+
+  formatTime(time) {
+    return time < 10 ? `0${time}` : String(time);
   }
 }
 
