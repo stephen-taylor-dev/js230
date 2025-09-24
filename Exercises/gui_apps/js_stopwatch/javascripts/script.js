@@ -121,5 +121,6 @@ class App {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  new App();
+  const app = new App();
+  console.log(app); // shutup esline
 });
