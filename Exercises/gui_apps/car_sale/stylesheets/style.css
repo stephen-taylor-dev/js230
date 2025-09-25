@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    padding: 5px 5px 10px 15px;
+    margin: 0px;
+    background-color: orange;
+    color: white;
+}
+
+header select {
+    background: none;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 2px;
+    margin-left: 2px;
+}
+
+header .filters {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+header .filter {
+    margin-right: 10px;
+}
+
+header button.filter {
+    margin-left: 10px;
+    background: none;
+    border: 1px solid white;
+    color: white;
+    border-radius: 5px;
+}
+
+img {
+    width: 200px;
+    height: auto;
+}
+
+.cars {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cars .car {
+    padding: 15px;
+}
+
+.info h4, .info p {
+    margin: 4px 0px 4px 0px;
+}
+
+button.purchase {
+    background-color: orange;
+    color: white;
+    padding: 5px 10px 5px 10px;
+    border: none;
+    border-radius: 5px;
+}
