@@ -28,7 +28,7 @@ header .filter {
     margin-right: 10px;
 }
 
-header button.filter {
+header button#filter-action {
     margin-left: 10px;
     background: none;
     border: 1px solid white;
@@ -43,6 +43,7 @@ img {
 
 .cars {
     display: flex;
+    align-items: flex-end;
     flex-wrap: wrap;
 }
 
