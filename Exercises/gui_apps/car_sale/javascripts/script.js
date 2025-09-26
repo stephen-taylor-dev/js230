@@ -15,6 +15,7 @@ class App {
     this.filterButton = null;
     this.filters = null;
     this.filterElements = null;
+    this.makeFilter = null;
 
     // Render page
     this.renderFilters();
@@ -23,6 +24,9 @@ class App {
 
     // Event listeners
     this.filterButton.addEventListener('click', this.handleFilterClick.bind(this));
+
+    this.makeFilter = document.querySelector('#car-make');
+    this.makeFilter.addEventListener('change', this.handleMakeSelection.bind(this));
   }
 
   // Event handler for filter button
@@ -34,6 +38,36 @@ class App {
 
     const cars = this.filterCars(filter);
     this.renderCars(cars);
+  }
+
+  resetFilter(filter) {
+    console.log(filter.children);
+    [...filter.children].forEach(element => {
+      element.remove();
+    });
+
+    filter.insertAdjacentHTML('beforeend', '<option value="Any">Any</option>');
+  }
+
+  handleMakeSelection(event) {
+    let modelDiv = document.querySelector('#car-model');
+    let make = this.makeFilter.value;
+    this.resetFilter(modelDiv);
+
+    let modelOptions = CARS.reduce((models, car) => {
+      if (make === 'Any' || car['make'] === make) {
+        models.add(car['model']);
+      }
+      return models;
+    }, new Set());
+
+    modelOptions.forEach((option) => {
+      let optionElement = document.createElement('option');
+      optionElement.value = String(option);
+      optionElement.innerHTML = String(option);
+      modelDiv.appendChild(optionElement);
+    });
+
   }
 
   // Reset DOM of loaded cars
@@ -55,9 +89,7 @@ class App {
 
   // Main function to render cars on page
   renderCars(cars) {
-    this.resetCars();
-    cars = cars ? cars : CARS;
-
+    this.resetCars(cars = CARS);
     cars.forEach((car) => {
       const make = car['make'];
       const image = car['image'];
@@ -80,7 +112,7 @@ class App {
 
   // Render select dropdown menus based on supplied Car Data
   renderFilters() {
-    this.initialzeFilters();
+    this.initializeFilters();
 
     Object.keys(this.filters).forEach((type) => {
       let selectHTML = `<div class="filter">
@@ -101,7 +133,7 @@ class App {
   }
 
   // load required filter type options from supplied data
-  initialzeFilters() {
+  initializeFilters() {
     this.filters = this.loadFilterTypes();
     this.loadFilterOptionValues(this.filters);
     this.sortFilterOptionsValues(this.filters);
@@ -156,10 +188,10 @@ class App {
       const options = filters[filterElement.name];
 
       options.forEach((option) => {
-        let optionElmement = document.createElement('option');
-        optionElmement.value = String(option);
-        optionElmement.innerHTML = String(option);
-        filterElement.appendChild(optionElmement);
+        let optionElement = document.createElement('option');
+        optionElement.value = String(option);
+        optionElement.innerHTML = String(option);
+        filterElement.appendChild(optionElement);
       });
     });
   }
